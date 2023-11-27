@@ -49,8 +49,16 @@ func (lb *Leaderboard) UpdatePlayerScore(userID, name string, score int, level i
 		lb.scoreLinkedLists[score] = scoreList
 	}
 
+	var laterUserCount int
+	for sc := 0; sc <= score; sc-- {
+		if scList, ex := lb.scoreLinkedLists[sc]; ex {
+			laterUserCount += scList.Len()
+		}
+	}
 	// 将用户添加到分数对应的链表中
 	playerElem := scoreList.PushBack(newPlayerScore)
+	// 当前用户的排名
+	newPlayerScore.CurrentPos = laterUserCount + scoreList.Len()
 
 	// 更新该用户的信息
 	lb.playerInformation[userID] = playerElem
@@ -68,6 +76,16 @@ func (lb *Leaderboard) PrintLeaderboard() {
 			}
 		}
 	}
+}
+
+func (lb *Leaderboard) GetUserRangePlayer(userID string, scope int) []*PlayerScore {
+	userScore, ok := lb.playerInformation[userID]
+	if !ok {
+		return nil
+	}
+	userScore.Prev()
+
+	return nil
 }
 
 func main() {

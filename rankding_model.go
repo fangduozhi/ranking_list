@@ -6,11 +6,12 @@ import (
 )
 
 type PlayerScore struct {
-	UserID    string
-	Name      string
-	Score     int
-	ScoreTime time.Time
-	Level     int
+	UserID     string
+	Name       string
+	Score      int
+	ScoreTime  time.Time
+	Level      int
+	CurrentPos int
 }
 
 // 分数到链表节点的映射
